@@ -52,7 +52,8 @@ public:
 
     bool removeRows(int position, int rows, const QModelIndex &index = QModelIndex());
 
-    Q_INVOKABLE void updateView();
+    Q_INVOKABLE void insertItem(QString tag, QString url);
+    Q_INVOKABLE void deleteItem(int index);
 
     QHash<int, QByteArray> roleNames() const;
 

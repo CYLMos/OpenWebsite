@@ -32,9 +32,21 @@ ListViewModel::ListViewModel(QObject* parent)
 
 }
 
-void ListViewModel::updateView(){
-    beginResetModel();
-    endResetModel();
+void ListViewModel::insertItem(QString tag, QString url){
+
+    MyData subData(tag, url, "Y");
+
+    beginInsertRows(QModelIndex(), rowCount(), rowCount());
+    this->myData.push_back(subData);
+    endInsertRows();
+}
+
+void ListViewModel::deleteItem(int index){
+    beginRemoveRows(QModelIndex(), index, index);
+
+    this->myData.removeAt(index);
+
+    endRemoveRows();
 }
 
 int ListViewModel::rowCount(const QModelIndex &parent) const{

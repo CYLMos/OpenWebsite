@@ -61,6 +61,7 @@ Window {
                     }
                     else{
                         database.addUrl(ti_tag.text, ti_url.text)
+                        list_view_model.insertItem(ti_tag.text, ti_url.text);
                         console.log(ti_tag.text + "-" + ti_url.text)
 
                         ti_tag.text = "";
@@ -243,6 +244,10 @@ Window {
 
                         }
                     }
+
+                    onClicked: {
+                        browser.start(cb_incognito_mod.checked)
+                    }
                 }
             }
         }
@@ -266,7 +271,7 @@ Window {
 
                 Rectangle{
                     id: rec_tag
-                    width: 200
+                    width: 150
                     height: parent.height
                     color: "#99a3d8"
                     border.color: "black"
@@ -281,7 +286,7 @@ Window {
                 Rectangle{
                     id: rec_url
                     anchors.left: rec_tag.right
-                    width: parent.width - rec_tag.width - 100
+                    width: parent.width - rec_tag.width - 200
                     height: parent.height
                     color: "#99a3d8"
                     border.color: "black"
@@ -296,7 +301,7 @@ Window {
                 Rectangle{
                     id: rec_check
                     anchors.left: rec_url.right
-                    width: parent.width - rec_url.width - rec_tag.width
+                    width: parent.width - rec_url.width - rec_tag.width - 100
                     height: parent.height
                     color: "#99a3d8"
                     border.color: "black"
@@ -305,6 +310,21 @@ Window {
                         id: lb_check
                         anchors.centerIn: parent
                         text: qsTr("Check")
+                    }
+                }
+
+                Rectangle{
+                    id: rec_delete
+                    anchors.left: rec_check.right
+                    width: parent.width - rec_url.width - rec_tag.width - rec_check.width
+                    height: parent.height
+                    color: "#99a3d8"
+                    border.color: "black"
+
+                    Label{
+                        id: lb_delete
+                        anchors.centerIn: parent
+                        text: qsTr("Delete")
                     }
                 }
 
@@ -343,7 +363,7 @@ Window {
 
                     TextField {
                         id: tf_tag
-                        width: 200
+                        width: 150
                         height: parent.height
                         text: model.tag
                         readOnly: true
@@ -372,7 +392,7 @@ Window {
                         id: tf_url
                         text: model.url
                         anchors.left: tf_tag.right
-                        width: parent.width - tf_tag.width - 100
+                        width: parent.width - tf_tag.width - 200
                         height: parent.height
                         readOnly: true
                         font.pixelSize: 14
@@ -404,12 +424,12 @@ Window {
                         property string open: "Open"
                         property string close: "Close"
 
-                        checked: model.status = "Y" ? true : false
+                        checked: model.status === "Y" ? true : false
 
                         text: cb_check.checked ? cb_check.open : cb_check.close
 
                         anchors.left: tf_url.right
-                        width: parent.width - tf_url.width - tf_tag.width
+                        width: parent.width - tf_url.width - tf_tag.width - 100
                         height: parent.height
 
                         style: CheckBoxStyle {
@@ -440,6 +460,58 @@ Window {
 
                         onClicked: {
                             console.log(text)
+                        }
+
+                    }
+
+                    Button {
+                        id: bt_delete
+                        text: "Delete"
+
+                        anchors.left: cb_check.right
+                        width: parent.width - tf_url.width - tf_tag.width - cb_check.width
+                        height: parent.height
+
+                        property string col1: "lightskyblue"
+                        property string col2: "blue"
+
+                        property string bt_color: "lightskyblue"
+
+                        style: ButtonStyle{
+                            background: Rectangle{
+                                id: bt_delete_style
+                                //color: "ligttskyblue"
+
+                                border.width: 3
+                                border.color: "Gray"
+                                radius: 15
+
+                                gradient: Gradient {
+                                    GradientStop {
+                                        position: 0
+                                        color: "white"
+                                    }
+                                    GradientStop {
+                                        position: 1
+                                        color: bt_delete.bt_color
+                                    }
+                                }
+
+                            }
+                        }
+
+                        onClicked: {
+                            database.removeUrl(model.tag, model.url)
+                            list_view_model.deleteItem(index)
+                        }
+
+                        onPressedChanged: {
+                            if(pressed){
+                                bt_color = col2
+                            }
+                            else{
+                                bt_color = col1
+                            }
                         }
 
                     }

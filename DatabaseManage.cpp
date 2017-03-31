@@ -16,7 +16,7 @@ DatabaseManage::DatabaseManage()
 
 DatabaseManage::~DatabaseManage()
 {
-    QSqlDatabase db = QSqlDatabase::contains("QSQLITE") ?
+    /*QSqlDatabase db = QSqlDatabase::contains("QSQLITE") ?
                 QSqlDatabase::database("QSQLITE"):
                 QSqlDatabase::addDatabase("QSQLITE", "../OpenWebsite/URL_Data");
 
@@ -24,7 +24,7 @@ DatabaseManage::~DatabaseManage()
 
     db.close();
 
-    db.removeDatabase("../OpenWebsite/URL_Data");
+    db.removeDatabase("../OpenWebsite/URL_Data");*/
 }
 
 bool DatabaseManage::checkLocation(){
@@ -103,6 +103,28 @@ void DatabaseManage::addUrl(QString tag, QString url){
 
         if(query.isActive()){
             qDebug() << "Active";
+        }
+    }
+}
+
+void DatabaseManage::removeUrl(QString tag, QString url){
+    QSqlDatabase db = QSqlDatabase::contains("QSQLITE") ?
+                QSqlDatabase::database("QSQLITE"):
+                QSqlDatabase::addDatabase("QSQLITE", "../OpenWebsite/URL_Data");
+
+    db.setDatabaseName("../OpenWebsite/URL_Data");
+
+    if(db.open()){
+        QSqlQuery query(db);
+        query.prepare("DELETE FROM url_table WHERE tag = :tag AND url = :url");
+
+        query.bindValue(":tag", tag);
+        query.bindValue(":url", url);
+
+        query.exec();
+
+        if(query.isActive()){
+            qDebug() << "Delete";
         }
     }
 }

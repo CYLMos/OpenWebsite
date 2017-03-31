@@ -9,7 +9,8 @@ CONFIG += c++11
 
 SOURCES += main.cpp \
     DatabaseManage.cpp \
-    ListViewModel.cpp
+    ListViewModel.cpp \
+    StartBrowser.cpp
 
 RESOURCES += qml.qrc
 
@@ -23,4 +24,5 @@ DISTFILES +=
 
 HEADERS += \
     DatabaseManage.h \
-    ListViewModel.h
+    ListViewModel.h \
+    StartBrowser.h

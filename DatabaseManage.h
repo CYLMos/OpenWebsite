@@ -16,7 +16,10 @@ public:
     Q_INVOKABLE bool checkLocation();
     Q_INVOKABLE void addBrowserAddress(QString address);
     Q_INVOKABLE void addUrl(QString tag, QString url);
+    Q_INVOKABLE void removeUrl(QString tag, QString url);
     Q_INVOKABLE void update(QString tag, QString url, QString status);
+
+    //Q_INVOKABLE void static getData(QObject* object, QString query);
 
 private:
 

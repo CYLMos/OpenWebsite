@@ -6,6 +6,7 @@
 #include <QAbstractListModel>
 #include "DatabaseManage.h"
 #include "ListViewModel.h"
+#include "StartBrowser.h"
 
 int main(int argc, char *argv[])
 {
@@ -20,6 +21,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("database", databaseManager.data());
     engine.rootContext()->setContextProperty("list_view_model", new ListViewModel());
+    engine.rootContext()->setContextProperty("browser",new StartBrowser() );
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
